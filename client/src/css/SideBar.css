@@ -1,0 +1,44 @@
+#sideBarContainer {
+    width: 300px;
+    height: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0px 0px 5px #aaa;
+
+    transition: 0.5s ease;
+}
+
+.sideMenuIcon {
+    width: 30px;
+    height: 30px;
+    margin: 16px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.menu {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.menuText {
+    font-size: 14px;
+}
+
+.sideBarIcon {
+    width: 30px;
+    height: 30px;
+    margin: 8px;
+}
+
+.gap {
+    height: 100px;
+}
+
+.menuWrapper {
+    margin: 16px;
+}

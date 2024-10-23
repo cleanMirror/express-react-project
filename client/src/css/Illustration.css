@@ -1,0 +1,97 @@
+#illustContainer {
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title {
+    width: 100%;
+    margin-top: 100px;
+}
+
+.line {
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+.mainWrapper {
+    width: 60%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.gridContainer {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 16px;
+    align-items: center;
+    justify-items: center;
+}
+
+.gridCell {
+    width: 250px;
+    height: 300px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #eee;
+}
+
+.thumbnail {
+    width: 250px;
+    height: 250px;
+    position: relative;
+    background-color: #aaa;
+    border-radius: 10px;
+}
+
+.heartBtn {
+    width: 50px;
+    height: 50px;
+    background-color: #bbb;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.imgTitleWrapper {
+    width: 100%;
+}
+
+.imgTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.authorWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.authorThumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-right: 8px;
+}
+
+.testBox {
+    width: 250px;
+    height: 300px;
+    background-color: #ccc;
+}

@@ -1,39 +1,32 @@
-import React from 'react';
-import { Box, Button, TextField, Typography } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import "../css/Login.css"
+import logo from "../image/pixivLogo.png"
 
 function Login() {
+
+  const navigate = useNavigate();
+
+  function fnGoMain() {
+    navigate("/illustration");
+  }
+
   return (
-    <Box
-      display="flex"
-      flexDirection="column"
-      alignItems="center"
-      justifyContent="center"
-      height="100vh"
-      sx={{ backgroundColor: '#f0f4f8', padding: 3 }}
-    >
-      <Box 
-        sx={{ 
-          width: '100%', 
-          maxWidth: '400px', 
-          padding: '20px',  
-          backgroundColor: '#fff', 
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',  
-          borderRadius: '8px' 
-        }}
-      >
-        <Typography variant="h4" mb={3} align="center">
-          로그인
-        </Typography>
-        <TextField label="이메일" variant="outlined" fullWidth margin="normal" />
-        <TextField label="비밀번호" variant="outlined" type="password" fullWidth margin="normal" />
-        <Button variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-          로그인
-        </Button>
-        <Typography mt={2} align="center">
-          계정이 없으신가요? <a href="/join">회원가입</a>
-        </Typography>
-      </Box>
-    </Box>
+    <div id="container">
+      <div id="loginBox">
+        <img class="logo" src={ logo } alt="logo"></img>
+        <p className="comment">창작 활동을 더욱 즐겁게</p>
+
+        <div className="gap"></div>
+
+        <input className="loginInput" placeholder="아이디"></input>
+        <input className="loginInput" placeholder="비밀번호" type="password"></input>
+
+        <div className="gap"></div>
+
+        <div className="loginBtn blueBtn" onClick={ fnGoMain }>로그인</div>
+        <div className="loginBtn redBtn">회원가입</div>
+      </div>
+    </div>
   );
 };
 
