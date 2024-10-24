@@ -1,21 +1,29 @@
-import "../css/Header.css"
+import styles from "../css/Header.module.css"
 import Logo from "../image/pixivLogo.png"
 import notifyIcon from "../image/notify.png"
 import profileIcon from "../image/profile.png"
+import { useNavigate } from "react-router-dom"
 
 function Header() {
+
+    const navigate = useNavigate();
+
+    function fnGoPutIllust() {
+        navigate("/putIllust");
+    }  
+
     return (
-        <div id="headerContainer">
-            <div id="headerLeft">
-                <img className="headerLogo" src={ Logo } alt="logo"></img>
+        <div id={styles.headerContainer}>
+            <div id={styles.headerLeft}>
+                <img className={styles.headerLogo} src={ Logo } alt="logo"></img>
             </div>
-            <div id="headerCenter">
-                <input className="searchBox" placeholder="작품 검색"></input>
+            <div id={styles.headerCenter}>
+                <input className={styles.searchBox} placeholder="작품 검색"></input>
             </div>
-            <div id="headerRight">
-                <div className="putIllustBtn">작품 투고</div>
-                <img className="headerIcon" src= { notifyIcon } ></img>
-                <img className="headerIcon" src={ profileIcon }></img>
+            <div id={styles.headerRight}>
+                <div className={styles.putIllustBtn} onClick={fnGoPutIllust}>작품 투고</div>
+                <img className={styles.headerIcon} src= { notifyIcon } alt="notify"></img>
+                <img className={styles.headerIcon} src={ profileIcon } alt="profile"></img>
             </div>
         </div>
     );

@@ -1,15 +1,24 @@
 import { useState } from "react";
-import "../css/SideBar.css"
+import styles from "../css/SideBar.module.css"
 import sideMenuIcon from "../image/sideMenu.png"
 import illustIcon from "../image/illustration.png"
 import mangeIcon from "../image/manga.png"
 import followIcon from "../image/follow.png"
 import discoveryIcon from "../image/discovery.png"
+import { useNavigate } from "react-router-dom";
 
-function SideBar() {
+function SideBar(props) {
 
-    var [ isOpen, setIsOpen ] = useState(true);
+    const navigate = useNavigate();
+
+    var [ isOpen, setIsOpen ] = useState(props.isOpen);
     var [ menuStyle, setMenuStyle ] = useState({});
+
+    if (isOpen) {
+        menuStyle = {left : "0px"};
+    } else {
+        menuStyle = {left : "-300px"};
+    }
 
     function fnMenuClick() {
         if (isOpen) {
@@ -21,32 +30,40 @@ function SideBar() {
         }
     }
 
+    function fnGoIllust() {
+        navigate("/illustration");
+    }
+
+    function fnGoFollow() {
+        navigate("/follow");
+    }
+
     return (
         <>
-            <img className="sideMenuIcon" src={ sideMenuIcon } onClick={ fnMenuClick } alt="sideMenuIcon"></img>
-            <div id="sideBarContainer" style={ menuStyle }>
+            <img className={styles.sideMenuIcon} src={ sideMenuIcon } onClick={ fnMenuClick } alt="sideMenuIcon"></img>
+            <div id={styles.sideBarContainer} style={ menuStyle }>
 
-                <div className="gap"></div>
+                <div className={styles.gap}></div>
 
-                <div className="menuWrapper">
-                    <div className="menu">
-                        <img className="sideBarIcon" src={ illustIcon } alt="illustIcon"></img>
-                        <div className="menuText">일러스트</div>
+                <div className={styles.menuWrapper}>
+                    <div className={styles.menu}>
+                        <img className={styles.sideBarIcon} src={ illustIcon } alt="illustIcon"></img>
+                        <div className={styles.menuText} onClick={fnGoIllust}>일러스트</div>
                     </div>
-                    <div className="menu">
-                        <img className="sideBarIcon" src={ mangeIcon } alt="mangaIcon"></img>
-                        <div className="menuText">만화</div>
+                    <div className={styles.menu}>
+                        <img className={styles.sideBarIcon} src={ mangeIcon } alt="mangaIcon"></img>
+                        <div className={styles.menuText}>만화</div>
                     </div>
                 </div>
 
-                <div className="menuWrapper">
-                    <div className="menu">
-                        <img className="sideBarIcon" src={ followIcon } alt="followIcon" ></img>
-                        <div className="menuText">팔로우</div>
+                <div className={styles.menuWrapper}>
+                    <div className={styles.menu}>
+                        <img className={styles.sideBarIcon} src={ followIcon } alt="followIcon" ></img>
+                        <div className={styles.menuText} onClick={fnGoFollow}>팔로우</div>
                     </div>
-                    <div className="menu">
-                        <img className="sideBarIcon" src={ discoveryIcon } alt="discoveryIcon"></img>
-                        <div className="menuText">디스커버리</div>
+                    <div className={styles.menu}>
+                        <img className={styles.sideBarIcon} src={ discoveryIcon } alt="discoveryIcon"></img>
+                        <div className={styles.menuText}>디스커버리</div>
                     </div>
                 </div>
             </div>

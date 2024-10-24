@@ -1,26 +1,26 @@
 #headerContainer {
     width: 100%;
-    height: 60px;
+    height: 120px;
 
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: start;
 }
 
 #headerLeft {
-    height: 100%;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #headerCenter {
-    height: 100%;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 #headerRight {
-    height: 100%;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;

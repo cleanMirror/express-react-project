@@ -1,0 +1,184 @@
+#container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    background-color: #eee;
+}
+
+.innerContainer {
+    width: 70%;
+    padding: 16px;
+
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+/* ============================ */
+
+.imageView {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-top-left-radius: 25px;
+    border-top-right-radius: 25px;
+}
+
+.illust {
+    width: 800px;
+    height: 800px;
+    position: relative;
+    margin: 16px;
+    background-color: #999;
+}
+
+.heartIcon {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.info {
+    width: 80%;
+    margin: 16px;
+}
+
+.title {
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.content {
+    margin-bottom: 16px;
+}
+
+.tag {
+    margin-bottom: 16px;
+}
+
+.infoLine {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.infoIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.date {
+    margin-bottom: 32px;
+}
+
+/* ====================== */
+
+.authorView {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.authorLine {
+    width: 80%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    margin: 16px;
+}
+
+.authorThumb {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 8px;
+    background-color: #ddd;
+}
+
+.followBtn {
+    width: 80%;
+    height: 40px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #ddd;
+}
+
+/* ============================ */
+
+.commentView {
+    border-top: 1px solid #ddd;
+    background-color: white;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.commentWrapper {
+    width: 70%;
+}
+
+.inputComment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.userThumbnail {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #aaa;
+}
+
+.inputBox {
+    width: 70%;
+    height: 20px;
+    border-radius: 5px;
+    padding: 8px;
+    border: 0;
+    background-color: #eee;
+}
+
+.submitBtn {
+    width: 100px;
+    height: 50px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 50px;
+    background-color: #eee;
+}
+
+.commentList {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+
+.commentCell {
+    width: 100%;
+    margin: 16px;
+    display: flex;
+    justify-content: start;
+    align-items: start;
+}
+
+.commentInfo {
+    width: 90%;
+    margin-left: 16px;
+}
+
+.userName {
+    margin-bottom: 8px;
+}
