@@ -4,15 +4,26 @@ import SideBar from "./SideBar";
 import styles from "../css/Illustration.module.css"
 import heartIcon from "../image/heart.png"
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function Illustration() {
 
+    useEffect(() => {
+        getIllustList();
+    }, []);
+
     const navigate = useNavigate();
 
-    var testList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
+    const [illustList, setIllustList] = useState([]); 
 
-    function fnGoIllustView() {
-        navigate("/illustView");
+    async function getIllustList() {
+        const res = await axios.get("http://localhost:3100/illust");
+        setIllustList(res.data.list);
+    }
+
+    function fnGoIllustView(id) {
+        navigate("/illustView", { state : {id : id}});
     }
 
     return (
@@ -28,18 +39,21 @@ function Illustration() {
                     <hr className={styles.line}></hr>
 
                     <div className={styles.gridContainer}>
-                        {testList.map((item) => {
+                        {illustList.map((item) => {
                             return (
                                 <div className={styles.gridCell}>
-                                    <div className={styles.thumbnail} onClick={fnGoIllustView}>
+                                    <div className={styles.thumbnailBox} onClick={() => {
+                                        fnGoIllustView(item.illustration_id);
+                                    }}>
                                         <img className={styles.heartBtn} src={heartIcon} alt="heart"></img>
+                                        <img className={styles.thumbnail} src={"http://localhost:3100/" + item.image_src} alt="thumbnail"></img>
                                     </div>
                                     <div className={styles.imgTitleWrapper}>
-                                        <div className={styles.imgTitle}>그림 제목</div>
+                                        <div className={styles.imgTitle}>{item.title}</div>
                                     </div>
                                     <div className={styles.authorWrapper}>
                                         <div className={styles.authorThumb}></div>
-                                        <div className={styles.author}>작가 이름</div>
+                                        <div className={styles.author}>{item.author_id}</div>
                                     </div>
                                 </div>
                             )

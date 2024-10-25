@@ -9,6 +9,9 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/user", require("./route/userRoute"));
+app.use("/illust", require("./route/illustRoute"));
+
+app.use('/upload', express.static('upload'));
 
 app.listen(3100, ()=>{
     console.log("server start!");

@@ -5,6 +5,7 @@ import illustIcon from "../image/illustration.png"
 import mangeIcon from "../image/manga.png"
 import followIcon from "../image/follow.png"
 import discoveryIcon from "../image/discovery.png"
+import logo from "../image/pixivLogo.png"
 import { useNavigate } from "react-router-dom";
 
 function SideBar(props) {
@@ -42,8 +43,7 @@ function SideBar(props) {
         <>
             <img className={styles.sideMenuIcon} src={ sideMenuIcon } onClick={ fnMenuClick } alt="sideMenuIcon"></img>
             <div id={styles.sideBarContainer} style={ menuStyle }>
-
-                <div className={styles.gap}></div>
+                <img className={styles.logo} src={logo} alt="sideBarLogo"></img>
 
                 <div className={styles.menuWrapper}>
                     <div className={styles.menu}>

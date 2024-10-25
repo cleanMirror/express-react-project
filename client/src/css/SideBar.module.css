@@ -5,6 +5,7 @@
     top: 0;
     left: 0;
     box-shadow: 0px 0px 5px #aaa;
+    background-color: white;
 
     transition: 0.5s ease;
 }
@@ -17,6 +18,13 @@
     top: 0;
     left: 0;
     z-index: 1000;
+}
+
+.logo {
+    width: 25%;
+    margin-top: 16px;
+    margin-left: 70px;
+    margin-bottom: 80px;
 }
 
 .menu {

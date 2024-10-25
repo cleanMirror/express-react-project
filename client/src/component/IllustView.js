@@ -6,8 +6,26 @@ import heartIcon from "../image/heart.png"
 import viewIcon from "../image/view.png"
 import heartGrayIcon from "../image/heart_fill_gray.png"
 import commentIcon from "../image/comment.png"
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function IllustView() {
+
+    const location = useLocation();
+    const id = location.state.id;
+
+    const [illustInfo, setIllustInfo] = useState({});
+
+    useEffect(() => {
+        getIllustInfo();
+    }, []);
+
+    async function getIllustInfo() {
+        const res = await axios.get("http://localhost:3100/illust/" + id);
+        console.log(res.data.info[ 0 ]);
+        setIllustInfo(res.data.info[ 0 ]);
+    }
 
     const testCommentList = [{}, {}, {}, {}, {}];
 
@@ -19,35 +37,32 @@ function IllustView() {
                 <div className={styles.innerContainer}>
                     <div className={styles.imageView}>
                         <div className={styles.illust}>
-                            img
                             <img className={styles.heartIcon} src={heartIcon} alt="heartIcon"></img>
+                            <img className={styles.illustImg} src={"http://localhost:3100/" + illustInfo.image_src}></img>
                         </div>
                         <div className={styles.info}>
-                            <div className={styles.title}>이미지 제목</div>
+                            <div className={styles.title}>{illustInfo.title}</div>
                             <div className={styles.content}>
-                                이미지 설명 이미지 설명 이미지 설명 이미지 설명 이미지 설명이미지
-                                설명이미지 설명이미지 설명이미지 설명이미지 설명이미지 설명
-                                이미지 설명이미지 설명이미지 설명이미지 설명이미지 설명이미지 설명
-                                이미지 설명이미지 설명이미지 설명이미지 설명이미지 설명이미지 설명
+                                {illustInfo.caption}
                             </div>
                             <div className={styles.tag}>
-                                #태그 #태그 #태그 #태그 #태그 #태그 #태그 #태그 #태그 #태그 
+                                {illustInfo.tag} 
                             </div>
                             <div className={styles.infoLine}>
                                 <img className={styles.infoIcon} src={ viewIcon } alt="viewIcon"></img>
-                                조회수
+                                {illustInfo.hit}
                                 <img className={styles.infoIcon} src={ heartGrayIcon } alt="heartGrayIcon"></img>
                                 좋아요
                                 <img className={styles.infoIcon} src={ commentIcon } alt="commentIcon"></img>
                                 댓글
                             </div>
-                            <div className={styles.date}>2024년 10월 4일 오전 1:23</div>
+                            <div className={styles.date}>{illustInfo.cdatetime}</div>
                         </div>
                     </div>
                     <div className={styles.authorView}>
                         <div className={styles.authorLine}>
                             <div className={styles.authorThumb}></div>
-                            <div>작가이름</div>
+                            <div>작가 이름</div>
                         </div>
                         <div className={styles.followBtn}>팔로우</div>
                     </div>
