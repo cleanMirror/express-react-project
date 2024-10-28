@@ -52,7 +52,13 @@
     border-radius: 25px;
     text-align: center;
     line-height: 50px;
-    background-color: #999;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(78, 187, 255);
+}
+
+.addImgBtn:hover {
+    background-color: rgb(78, 156, 255);
 }
 
 .inputView {
@@ -108,5 +114,11 @@
     text-align: center;
     line-height: 50px;
     margin: 32px;
-    background-color: #aaa;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(78, 187, 255);
+}
+
+.putBtn:hover {
+    background-color: rgb(78, 156, 255);
 }

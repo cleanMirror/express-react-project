@@ -10,6 +10,8 @@ app.use(bodyParser.json());
 
 app.use("/user", require("./route/userRoute"));
 app.use("/illust", require("./route/illustRoute"));
+app.use("/author", require("./route/authorRoute"));
+app.use("/follow", require("./route/followRoute"));
 
 app.use('/upload', express.static('upload'));
 

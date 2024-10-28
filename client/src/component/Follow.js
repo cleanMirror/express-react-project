@@ -7,16 +7,35 @@ import rightIcon from "../image/right.png"
 import viewIcon from "../image/view.png"
 import heartGrayIcon from "../image/heart_fill_gray.png"
 import commentIcon from "../image/comment.png"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 function Follow() {
 
-    var testFollowList = [{}, {}, {}, {}, {}, {}, {}, {}, {}, {}];
-    var testFeedList = [{}, {}, {}, {}, {}];
+    const [followList, setFollowList] = useState([]);
+    const [feedList, setFeedList] = useState([]);
+
+    const currSelect = useRef(null);
 
     var xIndex = useRef(0);
-
     var [followStyle, setFollowStyle] = useState({});
+
+    useEffect(() => {
+        fnGetFollowList();
+    }, []);
+
+    async function fnGetFollowList() {
+        const res = await axios.get("http://localhost:3100/follow?userId=" + 'user1');
+        setFollowList(res.data.list);
+        fnGetFollowFeedList(res.data.list);
+    }
+
+    async function fnGetFollowFeedList(list) {
+        const res = await axios.post("http://localhost:3100/follow/feed", {
+            list : list
+        });
+        setFeedList(res.data.feeds);
+    }
 
     function fnLeftClick() {
         xIndex.current += 928; // 8개, 1개당 116
@@ -26,6 +45,16 @@ function Follow() {
     function fnRightClick() {
         xIndex.current -= 928; // 8개, 1개당 116
         setFollowStyle({translate : `${xIndex.current}px 0px`});
+    }
+
+    function fnFollowClick(index) {
+        if (index == currSelect.current) {
+            currSelect.current = null;
+            fnGetFollowFeedList(followList);
+            return;
+        }
+        currSelect.current = index;
+        fnGetFollowFeedList([followList[index] ] );
     }
 
     return (
@@ -48,36 +77,49 @@ function Follow() {
                     ></img>
                     <div className={styles.followContainer}>
                         <div className={styles.cellWrapper} style={followStyle}>
-                            {testFollowList.map((item) => {
+                            {followList.map((item, index) => {
                                 return (
-                                    <div className={styles.followCell}>
-                                        <div className={styles.followThumb}></div>
-                                        <div>작가 이름</div>
+                                    <div
+                                        className={styles.followCell}
+                                        onClick={() => {
+                                            fnFollowClick(index);
+                                    }}>
+                                        <img
+                                            className={styles.followThumb}
+                                            src={"http://localhost:3100/"+item.profileImg}
+                                            style={currSelect.current == index ? {border : "3px solid red"} : {border : "none"}}></img>
+                                        <div className={styles.followName}>{item.nickname}</div>
                                     </div>
                                 )
                             })}
                         </div>
                     </div>
                     <div className={styles.cardView}>
-                        {testFeedList.map((item) => {
+                        {feedList.map((item) => {
                             return (
                                 <div className={styles.card}>
                                     <div className={styles.authorLine}>
-                                        <div className={styles.authorThumb}></div>
-                                        <div className={styles.authorName}>작가 이름</div>
+                                        <img
+                                            className={styles.authorThumb}
+                                            src={"http://localhost:3100/" + item.profileImg}></img>
+                                        <div className={styles.authorName}>{item.nickname}</div>
                                     </div>
-                                    <div className={styles.cardImg}>image</div>
+                                    <div className={styles.cardImgView}>
+                                        <img
+                                            className={styles.cardImg}
+                                            src={"http://localhost:3100/" + item.image_src}></img>
+                                    </div>
                                     <div className={styles.cardInfo}>
                                         <div className={styles.infoLeft}>
                                             <img className={styles.infoIcon} src={viewIcon} alt="viewIcon"></img>
-                                            <div>1,302</div>
+                                            <div>{item.hit}</div>
                                             <img className={styles.infoIcon} src={heartGrayIcon} alt="heartIcon"></img>
                                             <div>302</div>
                                             <img className={styles.infoIcon} src={commentIcon} alt="commentIcon"></img>
                                             <div>13</div>
                                         </div>
                                         <div className={styles.infoRight}>
-                                            <div className={styles.date}>2024년 10월 4일 오전 1:23</div>
+                                            <div className={styles.date}>{item.cdatetime}</div>
                                         </div>
                                     </div>
                                 </div>

@@ -18,10 +18,17 @@ const upload = multer({ storage : storage });
 
 router.route("/")
     .get((req, res) => {
+        const {start, size} = req.query;
+        const start_int = parseInt(start);
+        const size_int = parseInt(size);
+
         const query = `SELECT   *
                        FROM     bixiv_illustration I1
-                       INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id`;
-        connection.query(query, (err, results) => {
+                       INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
+                       INNER JOIN bixiv_user U ON I1.author_id = U.id
+                       ORDER BY I1.cdatetime desc
+                       LIMIT ? OFFSET ?`;
+        connection.query(query, [size_int, start_int], (err, results) => {
             if (err) {
                 console.error("쿼리 실행 실패!", err);
                 return;
@@ -36,7 +43,7 @@ router.route("/")
                                bixiv_illustration (author_id, title, caption, tag, cdatetime)
                            VALUES
                                (?, ?, ?, ?, now())`;
-        const userId = "user1";
+        const userId = "user12";
         connection.query(infoQuery, [userId, title, caption, tag], (err, infoResults) => {
             if (err) {
                 console.error("게시글 등록 실패", err);
@@ -61,6 +68,19 @@ router.route("/")
         })
     });
 
+router.route("/getTotalCnt")
+    .get((req, res) => {
+        const query = `SELECT   COUNT(*) as CNT
+                       FROM     bixiv_illustration`;
+        connection.query(query, (err, results) => {
+            if (err) {
+                console.error("쿼리 오류", err);
+                return;
+            }
+            res.json({ count : results[ 0 ].CNT});
+        })
+    })
+
 router.route("/:id")
     .get((req, res) => {
         const illustId = req.params.id;
@@ -68,6 +88,7 @@ router.route("/:id")
         const query = `SELECT   *
                        FROM     bixiv_illustration I1
                        INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
+                       INNER JOIN bixiv_user U ON I1.author_id = U.id
                        WHERE    I1.illustration_id = ?`;
         connection.query(query, [illustId], (err, results) => {
             if (err) {

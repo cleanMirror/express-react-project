@@ -10,7 +10,11 @@ function Header() {
 
     function fnGoPutIllust() {
         navigate("/putIllust");
-    }  
+    }
+
+    function fnGoProfile(userId) {
+        navigate("/author", { state : {userId : userId}});
+    }
 
     return (
         <div id={styles.headerContainer}>
@@ -23,7 +27,13 @@ function Header() {
             <div id={styles.headerRight}>
                 <div className={styles.putIllustBtn} onClick={fnGoPutIllust}>작품 투고</div>
                 <img className={styles.headerIcon} src= { notifyIcon } alt="notify"></img>
-                <img className={styles.headerIcon} src={ profileIcon } alt="profile"></img>
+                <img
+                    className={styles.headerIcon}
+                    src={ profileIcon }
+                    alt="profile"
+                    onClick={() => {
+                        fnGoProfile('user1');
+                    }}></img>
             </div>
         </div>
     );

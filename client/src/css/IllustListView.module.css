@@ -1,0 +1,88 @@
+
+.gridContainer {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px 16px;
+    align-items: center;
+    justify-items: center;
+}
+
+.gridCell {
+    width: 250px;
+    height: 300px;
+}
+
+.thumbnailBox {
+    width: 250px;
+    height: 250px;
+    position: relative;
+    background-color: #aaa;
+    border-radius: 10px;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.heartBtn {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.imgTitleWrapper {
+    width: 100%;
+}
+
+.imgTitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.authorWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.authorThumb {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin-right: 8px;
+}
+
+.pagination {
+    margin: 16px;
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pageBtn {
+    width: 50px;
+    height: 50px;
+    margin: 8px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(78, 187, 255);
+}
+
+.pageBtn:hover {
+    background-color: rgb(78, 156, 255);
+}

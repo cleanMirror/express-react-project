@@ -5,6 +5,7 @@ import Illustration from './component/Illustration';
 import IllustView from './component/IllustView';
 import Follow from './component/Follow';
 import PutIllust from './component/PutIllust';
+import Author from './component/Author';
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route path='/illustView' element={<IllustView/>} />
         <Route path='/follow' element={<Follow />} />
         <Route path='/putIllust' element={<PutIllust/>} />
+        <Route path='/author' element={<Author />} />
       </Routes>
     </Router>
   );

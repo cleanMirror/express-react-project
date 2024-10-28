@@ -59,6 +59,11 @@
     text-align: center;
     font-weight: bold;
     line-height: 40px;
-    background-color: #ddd;
+    color: white;
+    background-color: rgb(78, 187, 255);
     margin-right: 16px;
+}
+
+.putIllustBtn:hover {
+    background-color: rgb(78, 156, 255);
 }
