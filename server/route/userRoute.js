@@ -1,27 +1,29 @@
 const express = require('express')
 const router = express.Router();
 const connection = require('../db');
+const jwt = require('jsonwebtoken');
+
+const JWT_KEY = "secret_201363030";
 
 router.route("/")
-    .get((req, res)=>{
-        const query = 'SELECT * FROM TBL_USER';
-        connection.query(query, (err, results) => {
-            if (err) {
-                console.error('쿼리 실행 실패:', err);
-                // res.status(500).send('서버 오류');
-                return;
-            }
-            res.render('user', { list : results }); 
-        });
-    })
     .post((req, res)=>{
-        const { email, password } = req.body;
-        const query = 'SELECT * FROM TBL_USER WHERE email = ? AND password = ?';
+        const { id, pwd } = req.body;
+        const query = `SELECT   *
+                       FROM     bixiv_user
+                       WHERE    id = ? AND pwd = ?`;
       
-        connection.query(query, [email, password], (err, results) => {
+        connection.query(query, [id, pwd], (err, results) => {
           if (err) throw err;
           if (results.length > 0) {
-            res.json({ success: true });
+            const userInfo = results[ 0 ];
+
+            const token = jwt.sign({
+              id : userInfo.id,
+              nickname : userInfo.nickname,
+              profileImg : userInfo.profileImg
+            }, JWT_KEY, {expiresIn : "1h"});
+
+            res.json({ success: true, message: "로그인 성공", token});
           } else {
             // 로그인 실패
             res.json({ success: false, message: '실패!' });

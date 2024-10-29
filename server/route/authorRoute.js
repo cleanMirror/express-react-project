@@ -19,9 +19,18 @@ const upload = multer({ storage : storage });
 router.route("/:userId")
     .get((req, res)=>{
         const userId = req.params.userId;
+        const {session_id} = req.query;
 
-        const query = 'SELECT * FROM bixiv_user WHERE id = ?';
-        connection.query(query, [userId], (err, results) => {
+        const query = `SELECT   
+                                U.id,
+                                U.profileImg,
+                                U.nickname,
+                                U.introduce,
+                                IF(ISNULL(F.follower_id), 'false', 'true') AS is_follow
+                       FROM     bixiv_user U
+                       LEFT JOIN bixiv_follow F ON U.id = F.target_id AND F.follower_id = ?
+                       WHERE    id = ?`;
+        connection.query(query, [session_id, userId], (err, results) => {
             if (err) {
                 console.error('쿼리 실행 실패:', err);
                 return;

@@ -54,6 +54,22 @@
     background-color: rgb(78, 156, 255);
 }
 
+.unFollowBtn {
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    border-radius: 25px;
+    margin: 16px;
+    font-weight: bold;
+    color: white;
+    background-color: #ddd;
+}
+
+.unFollowBtn:hover {
+    background-color: #aaa;
+}
+
 .tabTitle {
     margin-left: 16px;
 }

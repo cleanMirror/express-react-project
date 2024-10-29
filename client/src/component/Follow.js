@@ -9,6 +9,7 @@ import heartGrayIcon from "../image/heart_fill_gray.png"
 import commentIcon from "../image/comment.png"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function Follow() {
 
@@ -20,12 +21,15 @@ function Follow() {
     var xIndex = useRef(0);
     var [followStyle, setFollowStyle] = useState({});
 
+    const token = localStorage.getItem("token");
+    const sessionInfo = jwtDecode(token);
+
     useEffect(() => {
         fnGetFollowList();
     }, []);
 
     async function fnGetFollowList() {
-        const res = await axios.get("http://localhost:3100/follow?userId=" + 'user1');
+        const res = await axios.get("http://localhost:3100/follow?userId=" + sessionInfo.id);
         setFollowList(res.data.list);
         fnGetFollowFeedList(res.data.list);
     }

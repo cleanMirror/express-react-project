@@ -1,13 +1,27 @@
 import { useNavigate } from "react-router-dom";
 import styles from "../css/Login.module.css"
 import logo from "../image/pixivLogo.png"
+import { useRef } from "react";
+import axios from "axios";
 
 function Login() {
-
   const navigate = useNavigate();
 
-  function fnGoMain() {
-    navigate("/illustration");
+  let id = useRef();
+  let pwd = useRef();
+
+  async function fnLogin() {
+    const res = await axios.post("http://localhost:3100/user", {
+      id : id.current.value,
+      pwd : pwd.current.value
+    });
+    
+    if (res.data.success) {
+      localStorage.setItem("token", res.data.token);
+      navigate("/illustration");
+    } else {
+      alert("아이디와 비밀번호를 확인해주세요");
+    }
   }
 
   return (
@@ -18,12 +32,19 @@ function Login() {
 
         <div className={styles.gap}></div>
 
-        <input className={styles.loginInput} placeholder="아이디"></input>
-        <input className={styles.loginInput} placeholder="비밀번호" type="password"></input>
+        <input
+          className={styles.loginInput}
+          placeholder="아이디"
+          ref={id}></input>
+        <input
+          className={styles.loginInput}
+          placeholder="비밀번호"
+          type="password"
+          ref={pwd}></input>
 
         <div className={styles.gap}></div>
 
-        <div className={`${styles.loginBtn} ${styles.blueBtn}`}  onClick={ fnGoMain }>로그인</div>
+        <div className={`${styles.loginBtn} ${styles.blueBtn}`}  onClick={ fnLogin }>로그인</div>
         <div className={`${styles.loginBtn} ${styles.redBtn}`}>회원가입</div>
       </div>
     </div>

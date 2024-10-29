@@ -123,6 +123,17 @@
     background-color: rgb(78, 187, 255);
 }
 
+.unFollowBtn {
+    width: 80%;
+    height: 40px;
+    border-radius: 25px;
+    text-align: center;
+    line-height: 40px;
+    font-weight: bold;
+    color: #555;
+    background-color: #ddd;
+}
+
 /* ============================ */
 
 .commentView {
@@ -168,7 +179,13 @@
     border-radius: 25px;
     text-align: center;
     line-height: 50px;
-    background-color: #eee;
+    font-weight: bold;
+    color: white;
+    background-color: rgb(78, 187, 255);
+}
+
+.submitBtn:hover {
+    background-color: rgb(78, 156, 255);
 }
 
 .commentList {
@@ -194,4 +211,5 @@
 
 .userName {
     margin-bottom: 8px;
+    font-weight: bold;
 }

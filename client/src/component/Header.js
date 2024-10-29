@@ -3,10 +3,15 @@ import Logo from "../image/pixivLogo.png"
 import notifyIcon from "../image/notify.png"
 import profileIcon from "../image/profile.png"
 import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { jwtDecode } from 'jwt-decode'
 
 function Header() {
 
     const navigate = useNavigate();
+    
+    const token = localStorage.getItem("token");
+    const sessionInfo = jwtDecode(token);
 
     function fnGoPutIllust() {
         navigate("/putIllust");
@@ -28,11 +33,11 @@ function Header() {
                 <div className={styles.putIllustBtn} onClick={fnGoPutIllust}>작품 투고</div>
                 <img className={styles.headerIcon} src= { notifyIcon } alt="notify"></img>
                 <img
-                    className={styles.headerIcon}
-                    src={ profileIcon }
+                    className={styles.headerProfile}
+                    src={ "http://localhost:3100/" + sessionInfo.profileImg }
                     alt="profile"
                     onClick={() => {
-                        fnGoProfile('user1');
+                        fnGoProfile(sessionInfo.id);
                     }}></img>
             </div>
         </div>

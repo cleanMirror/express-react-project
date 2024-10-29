@@ -6,6 +6,7 @@ import styles from "../css/Author.module.css"
 import IllustListView from "./IllustListView";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function Author() {
 
@@ -14,12 +15,15 @@ function Author() {
 
     const [authorInfo, setAuthorInfo] = useState({});
 
+    const token = localStorage.getItem("token");
+    const sessionInfo = jwtDecode(token);
+
     useEffect(() => {
         getAuthorInfo();
     }, []);
 
     async function getAuthorInfo() {
-        const res = await axios.get("http://localhost:3100/author/" + userId);
+        const res = await axios.get("http://localhost:3100/author/" + userId + "?session_id=" + sessionInfo.id);
         setAuthorInfo(res.data.info);
     }
 
@@ -42,6 +46,21 @@ function Author() {
         getAuthorInfo();
     }
 
+    async function fnFollowBtnClick() {
+        if (authorInfo.is_follow == "true") {
+            const res = await axios.delete(
+                "http://localhost:3100/follow"
+                + "?author_id="+ authorInfo.id
+                + "&session_id=" + sessionInfo.id);
+        } else {
+            const res = await axios.put(
+                "http://localhost:3100/follow"
+                + "?author_id="+ authorInfo.id
+                + "&session_id=" + sessionInfo.id);
+        }
+        getAuthorInfo();
+    }
+
     return (
         <div>
             <Header></Header>
@@ -59,7 +78,11 @@ function Author() {
                             <div className={styles.followCount}>13 팔로우 중</div>
                             <div className={styles.authorIntroduce}>{authorInfo.introduce}</div>
                         </div>
-                        <div className={styles.followBtn}>팔로우 하기</div>
+                        <div
+                            className={authorInfo.is_follow == "true" ? styles.unFollowBtn : styles.followBtn}
+                            onClick={fnFollowBtnClick}>
+                                {authorInfo.is_follow == "true" ? "팔로우 중" : "팔로우 하기"}
+                        </div>
                     </div>
                     <h3 className={styles.tabTitle}>일러스트</h3>
                     <hr className={styles.line}></hr>

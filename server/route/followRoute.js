@@ -18,6 +18,32 @@ router.route("/")
             res.json({ list : results }); 
         });
     })
+    .put((req, res) => {
+        const { author_id, session_id } = req.query;
+        
+        const query = `INSERT INTO bixiv_follow
+                       VALUES (?, ?)`;
+        connection.query(query, [author_id, session_id], (err, results) => {
+            if (err) {
+                console.error('쿼리 실행 오류', err);
+                return;
+            }
+            res.json({success : true, message: "팔로우 됨"});
+        })
+    })
+    .delete((req, res) => {
+        const { author_id, session_id } = req.query;
+
+        const query = `DELETE FROM bixiv_follow
+                       WHERE target_id = ? AND follower_id = ?`;
+        connection.query(query, [author_id, session_id], (err, results) => {
+            if (err) {
+                console.error("쿼리 실행 오류", err);
+                return;
+            }
+            res.json({success : true, message : "팔로우 해제됨"});
+        })
+    })
 
 router.route("/feed")
     .post((req, res) => {
@@ -35,7 +61,8 @@ router.route("/feed")
                        FROM     bixiv_illustration I1
                        INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
                        INNER JOIN bixiv_user U ON I1.author_id = U.id
-                       WHERE    I1.author_id IN ${idList}`;
+                       WHERE    I1.author_id IN ${idList}
+                       ORDER BY I1.illustration_id DESC`;
 
         connection.query(query, (err, results) => {
             if (err) {

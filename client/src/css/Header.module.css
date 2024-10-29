@@ -67,3 +67,10 @@
 .putIllustBtn:hover {
     background-color: rgb(78, 156, 255);
 }
+
+.headerProfile {
+    height: 50%;
+    margin: 16px;
+    border-radius: 50%;
+    background-color: #eee;
+}
