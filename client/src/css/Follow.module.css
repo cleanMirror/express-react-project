@@ -1,10 +1,23 @@
+@font-face {
+    font-family: "NanumSquareNeo-Rg";
+    src: url("../font/NanumSquareNeo-bRg.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "NanumSquareNeo-Eb";
+    src: url("../font/NanumSquareNeo-dEb.ttf") format("truetype")
+}
+
 #container {
     width: 100%;
+    min-height: 100vh;
 
     display: flex;
     flex-direction: column;
     justify-content: start;
     align-items: center;
+
+    font-family: "NanumSquareNeo-Rg";
 }
 
 .innerContainer {
@@ -63,7 +76,8 @@
 }
 
 .followName {
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
+    margin: 8px;
 }
 
 /* ======================== */
@@ -108,7 +122,7 @@
 
 .authorName {
     margin-left: 16px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
 }
 
 .cardImgView {
@@ -149,6 +163,15 @@
     height: 20px;
 }
 
+.infoText {
+    color: #555;
+    font-size: 14px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
 .date {
+    color: #555;
+    font-size: 14px;
     margin-left: 16px;
 }

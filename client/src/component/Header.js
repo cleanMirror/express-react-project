@@ -1,9 +1,7 @@
 import styles from "../css/Header.module.css"
-import Logo from "../image/pixivLogo.png"
+import Logo from "../image/bixivLogo.png"
 import notifyIcon from "../image/notify.png"
-import profileIcon from "../image/profile.png"
 import { useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
 import { jwtDecode } from 'jwt-decode'
 
 function Header() {

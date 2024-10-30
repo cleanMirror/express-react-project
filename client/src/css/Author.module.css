@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "NanumSquareNeo-Rg";
+    src: url("../font/NanumSquareNeo-bRg.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "NanumSquareNeo-Eb";
+    src: url("../font/NanumSquareNeo-dEb.ttf") format("truetype")
+}
+
 #container {
     width: 100%;
 
@@ -5,6 +15,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    font-family: "NanumSquareNeo-Rg";
 }
 
 .innerContainer {
@@ -33,6 +45,12 @@
     margin-top: 40px;
 }
 
+.authorName {
+    font-size: 20px;
+    font-family: "NanumSquareNeo-Eb";
+    margin-bottom: 32px;
+}
+
 .followCount {
     font-size: 14px;
     margin-bottom: 16px;
@@ -45,7 +63,7 @@
     line-height: 50px;
     border-radius: 25px;
     margin: 16px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     color: white;
     background-color: rgb(78, 187, 255);
 }
@@ -61,7 +79,7 @@
     line-height: 50px;
     border-radius: 25px;
     margin: 16px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     color: white;
     background-color: #ddd;
 }

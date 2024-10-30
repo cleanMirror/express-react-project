@@ -1,13 +1,28 @@
+@font-face {
+    font-family: "NanumSquareNeo-Rg";
+    src: url("../font/NanumSquareNeo-bRg.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "NanumSquareNeo-Eb";
+    src: url("../font/NanumSquareNeo-dEb.ttf") format("truetype")
+}
+
 #illustContainer {
     width: 100%;
 
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-family: "NanumSquareNeo-Rg";
 }
 
 .title {
     width: 100%;
+    font-family: "NanumSquareNeo-Eb";
+    font-size: 20px;
+    margin: 16px;
 }
 
 .line {

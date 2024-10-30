@@ -17,26 +17,50 @@ function IllustListView(props) {
     const pageSize = 16;
 
     const token = localStorage.getItem("token");
-    const dToken = jwtDecode(token);
+    const sessionInfo = jwtDecode(token);
 
     useEffect(() => {
         getTotalCnt();
         getIllustList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getTotalCnt() {
-        const res = await axios.get("http://localhost:3100/illust/getTotalCnt");
+        let res;
+        if (props.author === "all") {
+            res = await axios.get("http://localhost:3100/illust/getTotalCnt");
+        } else {
+            res = await axios.get(
+                "http://localhost:3100/illust/author/getTotalCnt?"
+                + "authorId=" + props.author
+            );
+        }
         setTotalPage(Math.ceil(res.data.count / pageSize) );
     }
 
     async function getIllustList() {
         const start = (currPage.current - 1) * pageSize;
-        const res = await axios.get("http://localhost:3100/illust/?start=" + start + "&size=" + pageSize + "&userId=" + dToken.id);
+
+        let res;
+        if (props.author === "all") {
+            res = await axios.get(
+                "http://localhost:3100/illust/?"
+                + "start=" + start
+                + "&size=" + pageSize
+                + "&userId=" + sessionInfo.id);
+        } else {
+            res = await axios.get(
+                "http://localhost:3100/illust/author?"
+                + "start=" + start
+                + "&size=" + pageSize
+                + "&authorId=" + props.author
+                + "&userId=" + sessionInfo.id);
+        }
         setIllustList(res.data.list);
-        console.log(res.data.list);
     }
 
-    function fnGoIllustView(id) {
+    async function fnGoIllustView(id) {
+        await axios.put("http://localhost:3100/illust/hit", {illustId : id});
         navigate("/illustView", { state : {id : id}});
     }
 
@@ -63,10 +87,10 @@ function IllustListView(props) {
     }
 
     async function fnHeartClick(id, isHeart) {
-        if (isHeart == "true") {
-            const res = await axios.delete("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + dToken.id);
+        if (isHeart === "true") {
+            await axios.delete("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + sessionInfo.id);
         } else {
-            const res = await axios.put("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + dToken.id);
+            await axios.put("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + sessionInfo.id);
         }
         getIllustList();
     }
@@ -80,7 +104,7 @@ function IllustListView(props) {
                             <div className={styles.thumbnailBox}>
                                 <img
                                     className={styles.heartBtn}
-                                    src={(item.is_heart == "true" ? heartFillIcon : heartIcon)}
+                                    src={(item.is_heart === "true" ? heartFillIcon : heartIcon)}
                                     alt="heart"
                                     onClick={() => {
                                         fnHeartClick(item.illustration_id, item.is_heart);
@@ -100,8 +124,12 @@ function IllustListView(props) {
                                 console.log(item.author_id);
                                 fnGoAuthorProfile(item.author_id);
                             }}>
-                                <img className={styles.authorThumb} src={"http://localhost:3100/"+item.profileImg}></img>
-                                <div className={styles.author}>{item.nickname}</div>
+                                <img
+                                    className={styles.authorThumb}
+                                    src={"http://localhost:3100/"+item.profileImg}
+                                    alt="authorThumb"
+                                    ></img>
+                                <div className={styles.authorName}>{item.nickname}</div>
                             </div>
                         </div>
                     )

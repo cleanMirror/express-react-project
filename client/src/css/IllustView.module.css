@@ -1,9 +1,21 @@
+@font-face {
+    font-family: "NanumSquareNeo-Rg";
+    src: url("../font/NanumSquareNeo-bRg.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "NanumSquareNeo-Eb";
+    src: url("../font/NanumSquareNeo-dEb.ttf") format("truetype")
+}
+
 #container {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: start;
     background-color: #eee;
+
+    font-family: "NanumSquareNeo-Rg";
 }
 
 .innerContainer {
@@ -59,15 +71,18 @@
 }
 
 .title {
-    font-weight: bold;
-    margin-bottom: 16px;
+    font-family: "NanumSquareNeo-Eb";
+    margin-bottom: 8px;
+    font-size: 20px;
 }
 
 .content {
+    font-size: 14px;
     margin-bottom: 16px;
 }
 
 .tag {
+    font-size: 14px;
     margin-bottom: 16px;
 }
 
@@ -83,8 +98,17 @@
     height: 20px;
 }
 
+.infoText {
+    color: #555;
+    font-size: 14px;
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
 .date {
+    color: #555;
     margin-bottom: 32px;
+    font-size: 14px;
 }
 
 /* ====================== */
@@ -104,6 +128,10 @@
     margin: 16px;
 }
 
+.authorName {
+    font-family: "NanumSquareNeo-Eb";
+}
+
 .authorThumb {
     width: 40px;
     height: 40px;
@@ -118,9 +146,13 @@
     border-radius: 25px;
     text-align: center;
     line-height: 40px;
-    font-weight: bold;
     color: white;
     background-color: rgb(78, 187, 255);
+    font-family: "NanumSquareNeo-Eb";
+}
+
+.followBtn:hover {
+    background-color: rgb(78, 156, 255);
 }
 
 .unFollowBtn {
@@ -129,9 +161,13 @@
     border-radius: 25px;
     text-align: center;
     line-height: 40px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     color: #555;
     background-color: #ddd;
+}
+
+.unFollowBtn:hover {
+    background-color: #aaa;
 }
 
 /* ============================ */
@@ -179,7 +215,7 @@
     border-radius: 25px;
     text-align: center;
     line-height: 50px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     color: white;
     background-color: rgb(78, 187, 255);
 }

@@ -20,6 +20,7 @@ function Author() {
 
     useEffect(() => {
         getAuthorInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getAuthorInfo() {
@@ -47,13 +48,13 @@ function Author() {
     }
 
     async function fnFollowBtnClick() {
-        if (authorInfo.is_follow == "true") {
-            const res = await axios.delete(
+        if (authorInfo.is_follow === "true") {
+            await axios.delete(
                 "http://localhost:3100/follow"
                 + "?author_id="+ authorInfo.id
                 + "&session_id=" + sessionInfo.id);
         } else {
-            const res = await axios.put(
+            await axios.put(
                 "http://localhost:3100/follow"
                 + "?author_id="+ authorInfo.id
                 + "&session_id=" + sessionInfo.id);
@@ -70,23 +71,25 @@ function Author() {
                     <div className={styles.authorInfo}>
                         <label>
                             <img className={styles.thumbnail}
-                            src={"http://localhost:3100/" + authorInfo.profileImg} ></img>
+                            src={"http://localhost:3100/" + authorInfo.profileImg}
+                            alt="thumbnail"
+                            ></img>
                             <input type="file" onChange={fnThumbChange} hidden></input>
                         </label>
                         <div className={styles.infoText}>
-                            <h3 className={styles.authorName}>{authorInfo.nickname}</h3>
-                            <div className={styles.followCount}>13 팔로우 중</div>
+                            <div className={styles.authorName}>{authorInfo.nickname}</div>
+                            <div className={styles.followCount}>{authorInfo.followCnt} 팔로우 중</div>
                             <div className={styles.authorIntroduce}>{authorInfo.introduce}</div>
                         </div>
                         <div
-                            className={authorInfo.is_follow == "true" ? styles.unFollowBtn : styles.followBtn}
+                            className={authorInfo.is_follow === "true" ? styles.unFollowBtn : styles.followBtn}
                             onClick={fnFollowBtnClick}>
-                                {authorInfo.is_follow == "true" ? "팔로우 중" : "팔로우 하기"}
+                                {authorInfo.is_follow === "true" ? "팔로우 중" : "팔로우 하기"}
                         </div>
                     </div>
                     <h3 className={styles.tabTitle}>일러스트</h3>
                     <hr className={styles.line}></hr>
-                    <IllustListView></IllustListView>
+                    <IllustListView author={userId}></IllustListView>
                 </div>
             </div>
             <Footer></Footer>

@@ -13,10 +13,10 @@ function Illustration() {
             <div id={styles.illustContainer}>
                 <div className={styles.mainWrapper}>
                     <div className={styles.title}>
-                        <h3>일러스트</h3>
+                        <div>일러스트</div>
                     </div>
                     <hr className={styles.line}></hr>
-                    <IllustListView></IllustListView>
+                    <IllustListView author={"all"}></IllustListView>
                 </div>
             </div>
             <Footer></Footer>

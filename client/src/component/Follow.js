@@ -10,8 +10,11 @@ import commentIcon from "../image/comment.png"
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 function Follow() {
+
+    const navigate = useNavigate();
 
     const [followList, setFollowList] = useState([]);
     const [feedList, setFeedList] = useState([]);
@@ -26,6 +29,7 @@ function Follow() {
 
     useEffect(() => {
         fnGetFollowList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function fnGetFollowList() {
@@ -38,6 +42,7 @@ function Follow() {
         const res = await axios.post("http://localhost:3100/follow/feed", {
             list : list
         });
+        console.log(res.data.feeds);
         setFeedList(res.data.feeds);
     }
 
@@ -52,13 +57,22 @@ function Follow() {
     }
 
     function fnFollowClick(index) {
-        if (index == currSelect.current) {
+        if (index === currSelect.current) {
             currSelect.current = null;
             fnGetFollowFeedList(followList);
             return;
         }
         currSelect.current = index;
         fnGetFollowFeedList([followList[index] ] );
+    }
+
+    function fnGoAuthorProfile(userId) {
+        navigate("/author", { state : {userId : userId} } );
+    }
+
+    async function fnGoIllustView(illustId) {
+        await axios.put("http://localhost:3100/illust/hit", {illustId : illustId});
+        navigate("/illustView", { state : {id : illustId}});
     }
 
     return (
@@ -91,7 +105,9 @@ function Follow() {
                                         <img
                                             className={styles.followThumb}
                                             src={"http://localhost:3100/"+item.profileImg}
-                                            style={currSelect.current == index ? {border : "3px solid red"} : {border : "none"}}></img>
+                                            style={currSelect.current === index ? {border : "3px solid red"} : {border : "none"}}
+                                            alt="followThumb"
+                                            ></img>
                                         <div className={styles.followName}>{item.nickname}</div>
                                     </div>
                                 )
@@ -102,25 +118,33 @@ function Follow() {
                         {feedList.map((item) => {
                             return (
                                 <div className={styles.card}>
-                                    <div className={styles.authorLine}>
+                                    <div className={styles.authorLine} onClick={() => {
+                                        fnGoAuthorProfile(item.id);
+                                    }}>
                                         <img
                                             className={styles.authorThumb}
-                                            src={"http://localhost:3100/" + item.profileImg}></img>
+                                            src={"http://localhost:3100/" + item.profileImg}
+                                            alt="authorThumb"
+                                            ></img>
                                         <div className={styles.authorName}>{item.nickname}</div>
                                     </div>
-                                    <div className={styles.cardImgView}>
+                                    <div className={styles.cardImgView} onClick={() => {
+                                        fnGoIllustView(item.illustration_id);
+                                    }}>
                                         <img
                                             className={styles.cardImg}
-                                            src={"http://localhost:3100/" + item.image_src}></img>
+                                            src={"http://localhost:3100/" + item.image_src}
+                                            alt="cardImg"
+                                            ></img>
                                     </div>
                                     <div className={styles.cardInfo}>
                                         <div className={styles.infoLeft}>
                                             <img className={styles.infoIcon} src={viewIcon} alt="viewIcon"></img>
-                                            <div>{item.hit}</div>
+                                            <div className={styles.infoText}>{item.hit}</div>
                                             <img className={styles.infoIcon} src={heartGrayIcon} alt="heartIcon"></img>
-                                            <div>302</div>
+                                            <div className={styles.infoText}>{item.heartCnt}</div>
                                             <img className={styles.infoIcon} src={commentIcon} alt="commentIcon"></img>
-                                            <div>13</div>
+                                            <div className={styles.infoText}>{item.commentCnt}</div>
                                         </div>
                                         <div className={styles.infoRight}>
                                             <div className={styles.date}>{item.cdatetime}</div>

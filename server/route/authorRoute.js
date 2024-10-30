@@ -26,9 +26,15 @@ router.route("/:userId")
                                 U.profileImg,
                                 U.nickname,
                                 U.introduce,
-                                IF(ISNULL(F.follower_id), 'false', 'true') AS is_follow
+                                IF(ISNULL(F.follower_id), 'false', 'true') AS is_follow,
+                                IFNULL(F2.followCnt, 0) AS followCnt
                        FROM     bixiv_user U
                        LEFT JOIN bixiv_follow F ON U.id = F.target_id AND F.follower_id = ?
+                       LEFT JOIN (
+                            SELECT	target_id, COUNT(*) AS followCnt
+                            FROM	bixiv_follow
+                            GROUP BY target_id
+                       ) F2 ON U.id = F2.target_id
                        WHERE    id = ?`;
         connection.query(query, [session_id, userId], (err, results) => {
             if (err) {
@@ -43,8 +49,6 @@ router.route("/")
     .post(upload.array('thumb'), (req, res) => {
         const { userId } = req.body;
         const files = req.files;
-
-        console.log(req.files);
 
         const query = "UPDATE bixiv_user SET profileImg = ? WHERE id = ?";
 

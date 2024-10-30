@@ -5,7 +5,7 @@ import illustIcon from "../image/illustration.png"
 import mangeIcon from "../image/manga.png"
 import followIcon from "../image/follow.png"
 import discoveryIcon from "../image/discovery.png"
-import logo from "../image/pixivLogo.png"
+import logo from "../image/bixivLogo.png"
 import { useNavigate } from "react-router-dom";
 
 function SideBar(props) {

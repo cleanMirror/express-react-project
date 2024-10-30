@@ -1,3 +1,13 @@
+@font-face {
+    font-family: "NanumSquareNeo-Rg";
+    src: url("../font/NanumSquareNeo-bRg.ttf") format("truetype")
+}
+
+@font-face {
+    font-family: "NanumSquareNeo-Eb";
+    src: url("../font/NanumSquareNeo-dEb.ttf") format("truetype")
+}
+
 
 .gridContainer {
     width: 100%;
@@ -7,6 +17,8 @@
     gap: 32px 16px;
     align-items: center;
     justify-items: center;
+
+    font-family: "NanumSquareNeo-Rg";
 }
 
 .gridCell {
@@ -43,7 +55,7 @@
 
 .imgTitle {
     font-size: 16px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     margin-top: 8px;
     margin-bottom: 8px;
 }
@@ -63,6 +75,10 @@
     margin-right: 8px;
 }
 
+.authorName {
+    font-size: 14px;
+}
+
 .pagination {
     margin: 16px;
     margin-top: 40px;
@@ -78,7 +94,7 @@
     text-align: center;
     line-height: 50px;
     border-radius: 5px;
-    font-weight: bold;
+    font-family: "NanumSquareNeo-Eb";
     color: white;
     background-color: rgb(78, 187, 255);
 }

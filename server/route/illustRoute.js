@@ -45,14 +45,13 @@ router.route("/")
         })
     })
     .post(upload.array('images'), (req, res) => {
-        const {title, caption, tag} = req.body;
+        const {authorId, title, caption, tag} = req.body;
 
         const infoQuery = `INSERT INTO
                                bixiv_illustration (author_id, title, caption, tag, cdatetime)
                            VALUES
                                (?, ?, ?, ?, now())`;
-        const userId = "user12";
-        connection.query(infoQuery, [userId, title, caption, tag], (err, infoResults) => {
+        connection.query(infoQuery, [authorId, title, caption, tag], (err, infoResults) => {
             if (err) {
                 console.error("게시글 등록 실패", err);
                 return res.json({ success : false, message : "게시글 등록 실패"});
@@ -76,11 +75,56 @@ router.route("/")
         })
     });
 
+router.route("/author")
+    .get((req, res) => {
+        const {start, size, authorId, userId} = req.query;
+        const start_int = parseInt(start);
+        const size_int = parseInt(size);
+        
+        const query = `SELECT
+                                I1.illustration_id,
+                                I2.image_src,
+                                IF(ISNULL(H.user_id), 'false', 'true') as is_heart,
+                                I1.title,
+                                I1.author_id,
+                                U.profileImg,
+                                U.nickname 
+                       FROM     bixiv_illustration I1
+                       INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
+                       INNER JOIN bixiv_user U ON I1.author_id = U.id
+                       LEFT JOIN bixiv_heart H ON I1.illustration_id = H.illustration_id AND H.user_id = ?
+                       WHERE    I1.author_id = ?
+                       ORDER BY I1.illustration_id desc
+                       LIMIT ? OFFSET ?`;
+        connection.query(query, [userId, authorId, size_int, start_int], (err, results) => {
+            if (err) {
+                console.error("쿼리 실행 실패!", err);
+                return;
+            }
+            res.json({ list : results });
+        })
+    })
+
 router.route("/getTotalCnt")
     .get((req, res) => {
         const query = `SELECT   COUNT(*) as CNT
                        FROM     bixiv_illustration`;
         connection.query(query, (err, results) => {
+            if (err) {
+                console.error("쿼리 오류", err);
+                return;
+            }
+            res.json({ count : results[ 0 ].CNT});
+        })
+    })
+
+router.route("/author/getTotalCnt")
+    .get((req, res) => {
+        const {authorId} = req.query;
+        const query = `SELECT   COUNT(*) as CNT
+                       FROM     bixiv_illustration
+                       WHERE    author_id = ?`;
+        connection.query(query, [authorId], (err, results) => {
             if (err) {
                 console.error("쿼리 오류", err);
                 return;
@@ -149,6 +193,22 @@ router.route("/comment")
         })
     })
 
+router.route("/hit")
+    .put((req, res) => {
+        const {illustId} = req.body;
+
+        const query = `UPDATE   bixiv_illustration
+                       SET      hit = hit + 1
+                       WHERE    illustration_id = ?`;
+        connection.query(query, [illustId], (err, results) => {
+            if (err) {
+                console.error("쿼리 오류", err);
+                return;
+            }
+            res.json({success : true, message : "조회수 증가됨"});
+        });
+    })
+    
 router.route("/:id")
     .get((req, res) => {
         const illustId = req.params.id;
@@ -162,24 +222,24 @@ router.route("/:id")
                                 I1.caption,
                                 I1.tag,
                                 I1.hit,
-                                I1.cdatetime,
+                                DATE_FORMAT(I1.cdatetime, '%Y년 %m월 %d일 %p %h:%i') AS cdatetime,
                                 U.id,
                                 U.profileImg,
                                 U.nickname,
-                                H2.heartCnt,
-                                C.commentCnt,
+                                IFNULL(H2.heartCnt, 0) AS heartCnt,
+                                IFNULL(C.commentCnt, 0) AS commentCnt,
                                 IF(ISNULL(F.follower_id), "false", "true") AS is_follow
                        FROM     bixiv_illustration I1
                        INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
                        INNER JOIN bixiv_user U ON I1.author_id = U.id
                        LEFT JOIN bixiv_heart H ON I1.illustration_id = H.illustration_id AND H.user_id = ?
                        LEFT JOIN bixiv_follow F ON I1.author_id = F.target_id AND F.follower_id = ?
-                       INNER JOIN (
+                       LEFT JOIN (
                             SELECT  illustration_id, COUNT(*) AS heartCnt
                             FROM    bixiv_heart
                             WHERE   illustration_id = ?
                        ) H2 ON I1.illustration_id = H2.illustration_id
-                       INNER JOIN (
+                       LEFT JOIN (
                             SELECT  illustration_id, COUNT(*) AS commentCnt
                             FROM    bixiv_comment
                             WHERE   illustration_id = ?

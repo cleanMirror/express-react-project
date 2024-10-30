@@ -4,17 +4,21 @@ import SideBar from "./SideBar";
 import styles from "../css/PutIllust.module.css"
 import { useRef, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 function PutIllust() {
 
-    const [images, setImages] = useState([]);
-    const [title, setTitle] = useState("");
+    const token = localStorage.getItem("token");
+    const sessionInfo = jwtDecode(token);
+
+    const [images , setImages ] = useState([]);
+    const [title  , setTitle  ] = useState("");
     const [caption, setCaption] = useState("");
-    const [tag, setTag] = useState("");
+    const [tag    , setTag    ] = useState("");
 
     const [uploadImg, setUploadImg] = useState();
 
-    const uploadBtn = useRef();
+    const uploadBtn     = useRef();
     const uploadImgView = useRef();
 
     function fnImageChange(e) {
@@ -35,10 +39,11 @@ function PutIllust() {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('images', images[ 0 ]);
-        formData.append('title', title);
-        formData.append('caption', caption);
-        formData.append('tag', tag);
+        formData.append('images'  , images[ 0 ]   );
+        formData.append('authorId', sessionInfo.id);
+        formData.append('title'   , title         );
+        formData.append('caption' , caption       );
+        formData.append('tag'     , tag           );
 
         try {
             const response = await axios.post('http://localhost:3100/illust', formData, {
@@ -47,9 +52,20 @@ function PutIllust() {
                 }
             });
             alert(response.data.message);
+            fnInit();
         } catch(error) {
             console.error("에러", error);
         }
+    }
+
+    function fnInit() {
+        setImages([]);
+        setTitle("");
+        setCaption("");
+        setTag("");
+
+        uploadBtn.current.hidden = false;
+        uploadImgView.current.hidden = true;
     }
 
     return (

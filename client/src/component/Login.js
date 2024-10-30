@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "../css/Login.module.css"
-import logo from "../image/pixivLogo.png"
+import logo from "../image/bixivLogo.png"
 import { useRef } from "react";
 import axios from "axios";
 

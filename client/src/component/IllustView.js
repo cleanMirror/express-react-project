@@ -23,22 +23,20 @@ function IllustView() {
     const [commentList, setCommentList] = useState([]);
 
     const token = localStorage.getItem("token");
-    const dToken = jwtDecode(token);
-    const sessionInfo = dToken;
+    const sessionInfo = jwtDecode(token);
 
     let commentInput = useRef();
 
     useEffect(() => {
         getIllustInfo();
         getCommentList();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     async function getIllustInfo() {
-        const res = await axios.get("http://localhost:3100/illust/" + id + "?userId=" + dToken.id);
-        console.log(res.data.info[ 0 ]);
+        const res = await axios.get("http://localhost:3100/illust/" + id + "?userId=" + sessionInfo.id);
         setIllustInfo(res.data.info[ 0 ]);
     }
-
     async function getCommentList() {
         const res = await axios.get("http://localhost:3100/illust/comment?illustId=" + id);
         setCommentList(res.data.list);
@@ -49,22 +47,22 @@ function IllustView() {
     }
 
     async function fnHeartClick() {
-        if (illustInfo.is_heart == "true") {
-            const res = await axios.delete("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + dToken.id);
+        if (illustInfo.is_heart === "true") {
+            await axios.delete("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + sessionInfo.id);
         } else {
-            const res = await axios.put("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + dToken.id);
+            await axios.put("http://localhost:3100/illust/heart?illustration_id=" + id + "&user_id=" + sessionInfo.id);
         }
         getIllustInfo();
     }
 
     async function fnFollowBtnClick() {
-        if (illustInfo.is_follow == "true") {
-            const res = await axios.delete(
+        if (illustInfo.is_follow === "true") {
+            await axios.delete(
                 "http://localhost:3100/follow"
                 + "?author_id="+ illustInfo.id
                 + "&session_id=" + sessionInfo.id);
         } else {
-            const res = await axios.put(
+            await axios.put(
                 "http://localhost:3100/follow"
                 + "?author_id="+ illustInfo.id
                 + "&session_id=" + sessionInfo.id);
@@ -94,10 +92,14 @@ function IllustView() {
                         <div className={styles.illust}>
                             <img
                                 className={styles.heartIcon}
-                                src={illustInfo.is_heart == "true" ? heartFillIcon : heartIcon}
+                                src={illustInfo.is_heart === "true" ? heartFillIcon : heartIcon}
                                 alt="heartIcon"
                                 onClick={fnHeartClick}></img>
-                            <img className={styles.illustImg} src={"http://localhost:3100/" + illustInfo.image_src}></img>
+                            <img
+                                className={styles.illustImg}
+                                src={"http://localhost:3100/" + illustInfo.image_src}
+                                alt="illustImg"
+                                ></img>
                         </div>
                         <div className={styles.info}>
                             <div className={styles.title}>{illustInfo.title}</div>
@@ -109,26 +111,36 @@ function IllustView() {
                             </div>
                             <div className={styles.infoLine}>
                                 <img className={styles.infoIcon} src={ viewIcon } alt="viewIcon"></img>
-                                {illustInfo.hit}
+                                <div className={styles.infoText}>
+                                    {illustInfo.hit}
+                                </div>
                                 <img className={styles.infoIcon} src={ heartGrayIcon } alt="heartGrayIcon"></img>
-                                {illustInfo.heartCnt}
+                                <div className={styles.infoText}>
+                                    {illustInfo.heartCnt}
+                                </div>
                                 <img className={styles.infoIcon} src={ commentIcon } alt="commentIcon"></img>
-                                {illustInfo.commentCnt}
+                                <div className={styles.infoText}>
+                                    {illustInfo.commentCnt}
+                                </div>
                             </div>
                             <div className={styles.date}>{illustInfo.cdatetime}</div>
                         </div>
                     </div>
                     <div className={styles.authorView}>
                         <div className={styles.authorLine} onClick={() => {
-                            fnGoAuthorProfile(illustInfo.author_id);
+                            fnGoAuthorProfile(illustInfo.id);
                         }}>
-                            <img className={styles.authorThumb} src={"http://localhost:3100/"+illustInfo.profileImg}></img>
-                            <h3>{illustInfo.nickname}</h3>
+                            <img
+                                className={styles.authorThumb}
+                                src={"http://localhost:3100/"+illustInfo.profileImg}
+                                alt="authorThumb"
+                                ></img>
+                            <div className={styles.authorName}>{illustInfo.nickname}</div>
                         </div>
                         <div
-                            className={illustInfo.is_follow == "true" ? styles.unFollowBtn : styles.followBtn}
+                            className={illustInfo.is_follow === "true" ? styles.unFollowBtn : styles.followBtn}
                             onClick={fnFollowBtnClick}>
-                            {illustInfo.is_follow == "true" ? "팔로우 중" : "팔로우 하기"}
+                            {illustInfo.is_follow === "true" ? "팔로우 중" : "팔로우 하기"}
                         </div>
                     </div>
                     <div className={styles.commentView}>
@@ -141,6 +153,7 @@ function IllustView() {
                                 <img
                                     className={styles.userThumbnail}
                                     src={"http://localhost:3100/" + sessionInfo.profileImg}
+                                    alt="userThumbnail"
                                 ></img>
                                 <input
                                     className={styles.inputBox}
@@ -156,6 +169,7 @@ function IllustView() {
                                             <img
                                                 className={styles.userThumbnail}
                                                 src={"http://localhost:3100/"+item.profileImg}
+                                                alt="userThumbnail"
                                             ></img>
                                             <div className={styles.commentInfo}>
                                                 <div className={styles.userName}>{item.nickname}</div>

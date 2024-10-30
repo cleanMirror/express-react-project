@@ -49,6 +49,11 @@ router.route("/feed")
     .post((req, res) => {
         const { list } = req.body;
         
+        // 팔로우를 하나도 안했을 때,
+        if (list.length == 0) {
+            list.push({target_id : "_nobody_"});
+        }
+
         let idList = "(";
         for (let i = 0; i < list.length; i++) {
             idList += "'" + list[ i ].target_id + "'";
@@ -57,16 +62,35 @@ router.route("/feed")
         }
         idList += ")";
 
-        const query = `SELECT   *
+        const query = `SELECT   
+                                U.id,
+                                U.profileImg,
+                                U.nickname,
+                                I1.illustration_id,
+                                I2.image_src,
+                                I1.hit,
+                                IFNULL(H.heartCnt, 0) AS heartCnt,
+                                IFNULL(C.commentCnt, 0) AS commentCnt,
+                                DATE_FORMAT(I1.cdatetime, '%Y년 %m월 %d일 %p %h:%i') AS cdatetime
                        FROM     bixiv_illustration I1
                        INNER JOIN bixiv_image I2 ON I1.illustration_id = I2.illustration_id
                        INNER JOIN bixiv_user U ON I1.author_id = U.id
+                       LEFT JOIN (
+                            SELECT  illustration_id, COUNT(*) AS heartCnt
+                            FROM    bixiv_heart
+                            GROUP BY illustration_id
+                       ) H ON I1.illustration_id = H.illustration_id
+                       LEFT JOIN (
+                            SELECT  illustration_id, COUNT(*) AS commentCnt
+                            FROM    bixiv_comment
+                            GROUP BY illustration_id
+                       ) C ON I1.illustration_id = C.illustration_id
                        WHERE    I1.author_id IN ${idList}
                        ORDER BY I1.illustration_id DESC`;
 
         connection.query(query, (err, results) => {
             if (err) {
-                console.log("쿼리 에러", err);
+                console.error("쿼리 에러", err);
                 return;
             }
             res.json({ feeds : results});
