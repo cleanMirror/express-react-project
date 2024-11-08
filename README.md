@@ -3,13 +3,13 @@
 ![illustration](https://github.com/user-attachments/assets/32b32c7b-f2bb-41f6-a893-77188e71cf95)
 
 
-## 프로젝트 목적
+## 📕 프로젝트 목적
 
 * react와 express를 이용한 SNS 사이트 만들기
 * 타겟 사이트는 pixiv를 잡고, 일반 sns의 피드 기능을 추가함
 
 
-## 주요 기능
+## ⚙ 주요 기능
 
 * 로그인 시, JWT 토큰을 생성
 * 작가들의 그림을 최신순으로 게시 및 페이징
@@ -22,17 +22,18 @@
 * 팔로우 작가별 모아보기 기능을 구현
 
 
-## 디자인 설계 - 스토리 보드
+## 🎨 디자인 설계 - 스토리 보드
 
 ![storyboard_all](https://github.com/user-attachments/assets/d003225c-affd-45bb-8afa-cf4152e72b13)
 
+* 디자인 설계는 스토리보드를 이용해서 진행하였음
 
-## DB 설계
+## 🥃 DB 설계
 
 ![DB](https://github.com/user-attachments/assets/63b211f9-e231-4dac-81fe-b8251bae895d)
 
 
-## 기능 및 화면 구성
+## 🖼 기능 및 화면 구성
 
 ![login](https://github.com/user-attachments/assets/daa49ac5-17f1-4cfb-889b-f0f5a1d02c39)
 
@@ -77,11 +78,11 @@
 * 작가 썸네일을 누르면 해당 작가의 작품만 모아서 보여줌
 
 
-## 개발 기간
+## 📆 개발 기간
 * 24년 10월 22일 ~ 24년 10월 30일 (7일)
 
 
-## 사용 언어
+## 📜 사용 언어
 ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
