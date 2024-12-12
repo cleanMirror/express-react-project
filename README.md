@@ -90,3 +90,9 @@
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+
+## 🙇‍♂️ 프로젝트 후기
+
+* React의 장점인 컴포넌트 분리를 효과적으로 사용하여, 같은 기능을 제공하는 컴포넌트들을 분리했다.
+* 여기에 props를 이용해서 같은 모양이지만 다른 정보를 제공하는 컴포넌트를 만들었고 이는, 코드의 재사용성과 유지보수 용이성이 좋아지는 효과가 있었다.
+* 짧은 프로젝트 기간을 효과적으로 사용할 수 있도록 핵심 기능 위주로 계획 설정해서 성공적으로 프로젝트를 마무리할 수 있었다.
